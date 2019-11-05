@@ -1,0 +1,100 @@
+---
+title: "Playoffs 2"
+author: "Hannah Adams, Michael Bono, Olivia Monroe, Lindsey Nelson, Joshua Shrestha"
+date: "10/30/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(readr)
+library(dplyr)
+library(rvest)
+library(stringr)
+```
+
+```{r}
+training <- read_csv("/users/lindseynelson/downloads/training_data390.1.csv")
+testing <- read_csv("/users/lindseynelson/downloads/testing_data390.1.csv")
+head(training)
+```
+
+```{r}
+names(training)[5]=c("Team_Game_nbr")
+names(training)[7]=c("Opp_Game_nbr")
+names(training)[8]=c("Team_location")
+names(training)[13]=c("Team_result")
+names(training)[14]=c("Team_pass_cmp")
+names(training)[15]=c("Team_pass_att")
+names(training)[16]=c("Team_pass_yds")
+names(training)[17]=c("Team_pass_TD")
+names(training)[18]=c("Team_rush_att")
+names(training)[19]=c("Team_rush_yds")
+names(training)[20]=c("Team_rush_avg")
+names(training)[21]=c("Team_rush_TD")
+names(training)[22]=c("Team_XPM")
+names(training)[23]=c("Team_XPA")
+names(training)[24]=c("Team_XP_pct")
+names(training)[25]=c("Team_FGM")
+names(training)[26]=c("Team_FGA")
+names(training)[27]=c("Team_FG_pct")
+names(training)[28]=c("Team_kick_pts")
+names(training)[29]=c("Team_fum")
+names(training)[30]=c("Team_Int")
+names(training)[31]=c("Team_total_TO")
+names(training)[32]=c("Opp_pass_cmp")
+names(training)[33]=c("Opp_pass_att")
+names(training)[34]=c("Opp_pass_pct")
+names(training)[35]=c("Opp_pass_yds")
+names(training)[36]=c("Opp_pass_TD")
+names(training)[37]=c("Opp_rush_att")
+names(training)[38]=c("Opp_rush_yds")
+names(training)[39]=c("Opp_rush_avg")
+names(training)[40]=c("Opp_rush_TD")
+names(training)[41]=c("Opp_XPM")
+names(training)[42]=c("Opp_XPA")
+names(training)[43]=c("Opp_XP_pct")
+names(training)[44]=c("Opp_FGM")
+names(training)[45]=c("Opp_FGA")
+names(training)[46]=c("Opp_FG_pct")
+names(training)[47]=c("Opp_kick_pts")
+names(training)[48]=c("Opp_fum")
+names(training)[49]=c("Opp_Int")
+names(training)[50]=c("Opp_total_TO")
+
+view(training)
+```
+
+```{r}
+mutate(training, turnover_rate=((Team_fum+Team_Int)-(Opp_fum+Opp_Int)))
+```
+
+```{r}
+training1 <-mutate(training1, Opp_pass_yds_att= Opp_pass_yds/Opp_pass_att)
+view(training1)
+```
+
+```{r}
+possession.url = "https://www.teamrankings.com/college-football/stat/average-time-of-possession-net-of-ot?date=2016-01-11"
+possession_1 = possession.url %>%
+  read_html() %>%
+  html_table(header=T,fill=T) %>%
+  .[[1]]
+
+possession[,1]=NULL
+
+thirdconversion.url = "https://www.teamrankings.com/college-football/stat/third-down-conversion-pct"
+thirdconversion_1 = thirdconversion.url %>%
+  read_html() %>%
+  html_table(header=T,fill=T) %>%
+  .[[1]]
+
+thirdconversion[,1]=NULL
+```
+
+
+
